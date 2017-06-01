@@ -44,7 +44,8 @@ complete_ratings_raw_data = sc.textFile(complete_ratings_file)
 complete_ratings_raw_data_header = complete_ratings_raw_data.take(1)[0]
 
 # Parse
-complete_ratings_data = complete_ratings_raw_data.filter(lambda line: line=complete_ratings_raw_data_header).map(lambda line: line.split(",")).map(lambda tokens: (int(tokens[0]),int(tokens[1]),float(tokens[2]))).cache()
+complete_ratings_data = complete_ratings_raw_data.filter(lambda line: line=complete_ratings_raw_data_header)
+        .map(lambda line: line.split(",")).map(lambda tokens: (int(tokens[0]),int(tokens[1]),float(tokens[2]))).cache()
     
 print "There are %s recommendations in the complete dataset" % (complete_ratings_data.count())
 
@@ -56,7 +57,8 @@ complete_movies_raw_data = sc.textFile(complete_movies_file)
 complete_movies_raw_data_header = complete_movies_raw_data.take(1)[0]
 
 # Parse
-complete_movies_data = complete_movies_raw_data.filter(lambda line: line!=complete_movies_raw_data_header)    .map(lambda line: line.split(",")).map(lambda tokens: (int(tokens[0]),tokens[1],tokens[2])).cache()
+complete_movies_data = complete_movies_raw_data.filter(lambda line: line!=complete_movies_raw_data_header)    
+        .map(lambda line: line.split(",")).map(lambda tokens: (int(tokens[0]),tokens[1],tokens[2])).cache()
 
 complete_movies_titles = complete_movies_data.map(lambda x: (int(x[0]),x[1]))
     
